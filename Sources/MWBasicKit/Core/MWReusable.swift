@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 public protocol MWIdentifiable: NSObject {
     static var mw_identify: String { get }

@@ -8,9 +8,6 @@
 import Foundation
 import UIKit
 
-///手机型号
-public let mw_phoneType = MWProperty.phoneType
-
 ///app版本
 public let mw_appVersion = MWProperty.appVersion
 
@@ -34,9 +31,6 @@ public let mw_serialQueue = MWProperty.serialQueue
 @objc public class MWProperty: NSObject {
     @objc public static var customeTemplateWidth: CGFloat = 375.0
     @objc public static var customeTemplateHeight: CGFloat = 667.0
-    
-    ///手机型号
-    @objc public static let phoneType = MWUtils.getPhoneType()
     
     ///app版本
     @objc public static let appVersion = MWUtils.getAppVersion()
