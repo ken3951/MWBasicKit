@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 //MARK:--显示dialog弹窗
 public func mw_showAlert(message: String ,title: String = "提示",  buttonItems: Array<String> = ["确定"] , indexBlock: MWInCallback<Int>? = nil) {

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+
 ///button文字和图片同时显示时的排列方向
 @objc public enum MWButtonDisplayOrientation: Int {
     case horizontalImageTitle = 1
@@ -15,7 +17,7 @@ import Foundation
     case verticalTitleImage
 }
 
-extension UIButton {
+public extension UIButton {
     
     ///根据方向和间距同时展示文字，图片
     @discardableResult
