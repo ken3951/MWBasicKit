@@ -47,3 +47,9 @@ public extension Array {
         return result
     }
 }
+
+extension Collection where Index == Int {
+    public func mw_get(_ index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+}

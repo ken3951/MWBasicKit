@@ -7,22 +7,6 @@
 
 import Foundation
 
-public protocol MWConfigProtocol {
-    
-}
-
-public extension MWConfigProtocol where Self: NSObject {
-    @discardableResult
-    func mw_config(_ handle: (Self) -> Void) -> Self {
-        handle(self)
-        return self
-    }
-}
-
-extension NSObject: MWConfigProtocol {
-    
-}
-
 extension NSObject {
     @objc static func mw_swizzlingForClass(_ forClass: AnyClass, originalSelector: Selector, swizzledSelector: Selector) {
         guard let originalMethod = class_getInstanceMethod(forClass, originalSelector),

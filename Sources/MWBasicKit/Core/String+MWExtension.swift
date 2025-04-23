@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@_exported import UIKit
+import UIKit
 
 infix operator +/ : AdditionPrecedence
 public func +/ (left: String, right: String) -> String {
