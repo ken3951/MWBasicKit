@@ -8,28 +8,14 @@
 
 #import "UIControl+MWCategory.h"
 #import <objc/runtime.h>
-@interface UIControl ()
-@property (nonatomic, assign) NSTimeInterval custom_acceptEventTime;
-@end
+#import "NSObject+MWCategory.h"
+
 @implementation UIControl (MWCategory)
 + (void)load{
-    Method systemMethod = class_getInstanceMethod(self, @selector(sendAction:to:forEvent:));
-    SEL sysSEL = @selector(sendAction:to:forEvent:);
-    
-    Method customMethod = class_getInstanceMethod(self, @selector(custom_sendAction:to:forEvent:));
-    SEL customSEL = @selector(custom_sendAction:to:forEvent:);
-    
-    //添加方法 语法：BOOL class_addMethod(Class cls, SEL name, IMP imp, const char *types) 若添加成功则返回No
-    // cls：被添加方法的类  name：被添加方法方法名  imp：被添加方法的实现函数  types：被添加方法的实现函数的返回值类型和参数类型的字符串
-    BOOL didAddMethod = class_addMethod(self, sysSEL, method_getImplementation(customMethod), method_getTypeEncoding(customMethod));
-    
-    //如果系统中该方法已经存在了，则替换系统的方法  语法：IMP class_replaceMethod(Class cls, SEL name, IMP imp,const char *types)
-    if (didAddMethod) {
-        class_replaceMethod(self, customSEL, method_getImplementation(systemMethod), method_getTypeEncoding(systemMethod));
-    }else{
-        method_exchangeImplementations(systemMethod, customMethod);
-        
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self mw_swizzlingForClass:self originalSelector:@selector(sendAction:to:forEvent:) swizzledSelector:@selector(custom_sendAction:to:forEvent:)];
+    });
 }
 
 - (NSTimeInterval )mw_eventInterval{

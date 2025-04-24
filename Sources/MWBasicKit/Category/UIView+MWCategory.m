@@ -2,6 +2,7 @@
 
 #import "UIView+MWCategory.h"
 #import <objc/runtime.h>
+#import "NSObject+MWCategory.h"
 
 @implementation UIView (MWCategory)
 
@@ -9,14 +10,7 @@
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Method originalM = class_getInstanceMethod([self class], @selector(pointInside:withEvent:));
-        Method swzM = class_getInstanceMethod([self class], @selector(swz_pointInside:withEvent:));
-        BOOL addMethod = class_addMethod([self class], @selector(pointInside:withEvent:), method_getImplementation(swzM), method_getTypeEncoding(swzM));
-        if (addMethod) {
-            class_replaceMethod([self class], @selector(swz_pointInside:withEvent:), method_getImplementation(originalM), method_getTypeEncoding(originalM));
-        } else {
-            method_exchangeImplementations(originalM, swzM);
-        }
+        [self mw_swizzlingForClass:self originalSelector:@selector(pointInside:withEvent:) swizzledSelector:@selector(swz_pointInside:withEvent:)];
     });
 }
 
