@@ -12,20 +12,20 @@
 @implementation UILabel (MWCategory)
 
 // 动态添加 padding 属性
-- (void)setPadding:(UIEdgeInsets)padding {
+- (void)setMw_padding:(UIEdgeInsets)padding {
     NSValue *value = [NSValue valueWithUIEdgeInsets:padding];
-    objc_setAssociatedObject(self, @selector(padding), value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(mw_padding), value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self invalidateIntrinsicContentSize]; // 触发重新布局
 }
 
-- (UIEdgeInsets)padding {
-    NSValue *value = objc_getAssociatedObject(self, @selector(padding));
+- (UIEdgeInsets)mw_padding {
+    NSValue *value = objc_getAssociatedObject(self, @selector(mw_padding));
     return value ? [value UIEdgeInsetsValue] : UIEdgeInsetsZero;
 }
 
 // 替换 drawTextInRect: 方法
 - (void)swizzled_drawTextInRect:(CGRect)rect {
-    UIEdgeInsets insets = self.padding;
+    UIEdgeInsets insets = self.mw_padding;
     CGRect insetRect = UIEdgeInsetsInsetRect(rect, insets);
     [self swizzled_drawTextInRect:insetRect]; // 调用原始的 drawTextInRect:
 }
@@ -33,7 +33,7 @@
 // 重写 intrinsicContentSize 方法，确保内边距影响 label 的大小
 - (CGSize)swizzled_intrinsicContentSize {
     CGSize originalSize = [self swizzled_intrinsicContentSize];
-    UIEdgeInsets insets = self.padding;
+    UIEdgeInsets insets = self.mw_padding;
     return CGSizeMake(originalSize.width + insets.left + insets.right,
                       originalSize.height + insets.top + insets.bottom);
 }
@@ -41,7 +41,7 @@
 // 重写 sizeThatFits: 方法，确保内边距影响 label 的大小
 - (CGSize)swizzled_sizeThatFits:(CGSize)size {
     CGSize originalSize = [self swizzled_sizeThatFits:size];
-    UIEdgeInsets insets = self.padding;
+    UIEdgeInsets insets = self.mw_padding;
     return CGSizeMake(originalSize.width + insets.left + insets.right,
                       originalSize.height + insets.top + insets.bottom);
 }
