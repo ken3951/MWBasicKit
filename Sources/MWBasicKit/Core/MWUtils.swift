@@ -104,13 +104,26 @@ let mwSerialQueueLabel = "com.mwbasicsdk.mw_serial"
     ///获取当前正在展示的mainView，UIAlertController除外
     @discardableResult
     @objc public static func getCurrentMainView() -> UIView? {
-        let currentVC = UIApplication.shared.windows.first?.rootViewController
+        let currentVC = getFirstWindow()?.rootViewController
         if let presentedVC = currentVC?.presentedViewController{
             if !presentedVC.isKind(of: UIAlertController.self) {
                 return presentedVC.view
             }
         }
         return currentVC?.view
+    }
+    
+    @objc public static func getFirstWindow() -> UIWindow? {
+        if let window = UIApplication.shared.windows.first {
+            return window
+        }
+        
+        if #available(iOS 13.0, *) {
+            let scene = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first
+            return scene?.windows.first
+        } else {
+            return nil
+        }
     }
 
     //MARK:--获取当前时间戳
