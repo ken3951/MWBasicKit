@@ -19,8 +19,8 @@ import UIKit
     
     ///生成纯色图片
     @discardableResult
-    static func mw_createImage(color: UIColor) -> UIImage? {
-        let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
+    static func mw_createImage(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage? {
+        let rect = CGRect(origin: .zero, size: size)
         UIGraphicsBeginImageContext(rect.size)
         let context = UIGraphicsGetCurrentContext()
         context?.setFillColor(color.cgColor)
