@@ -9,7 +9,10 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "MWBasicKit",
-            targets: ["MWBasicKitCategory","MWBasicKitSecurity","MWBasicKitCore"]),
+            targets: ["MWBasicKitCategory","MWBasicKitSecurity","MWBasicKitCore","MWBasicKitView"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/SnapKit/SnapKit", .upToNextMajor(from: "5.7.1")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -24,8 +27,12 @@ let package = Package(
             name: "MWBasicKitCore",
             dependencies: ["MWBasicKitCategory"],
             path: "Sources/MWBasicKit/Core"),
+        .target(
+            name: "MWBasicKitView",
+            dependencies: ["SnapKit","MWBasicKitCategory","MWBasicKitCore"],
+            path: "Sources/MWBasicKit/View"),
         .testTarget(
             name: "MWBasicKitTests",
-            dependencies: ["MWBasicKitCategory","MWBasicKitSecurity","MWBasicKitCore"]),
+            dependencies: ["MWBasicKitCategory","MWBasicKitSecurity","MWBasicKitCore","MWBasicKitView"]),
     ]
 )
