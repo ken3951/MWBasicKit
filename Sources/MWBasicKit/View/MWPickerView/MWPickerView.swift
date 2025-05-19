@@ -119,6 +119,10 @@ open class MWPickerView: UIView, MWPopEnable {
         fatalError("numberOfRowsInComponent has not been implemented")
     }
     
+    func didSelectPickerRow(_ row: Int, inComponent component: Int) {
+        
+    }
+    
     //MARK: --Action
     @objc func sureButtonAction() {
         var selectIndexs: [Int] = []
@@ -177,6 +181,6 @@ extension MWPickerView: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        // self.selectCallback?(self,IndexPath(row: row, section: component))
+        self.didSelectPickerRow(row, inComponent: component)
     }
 }

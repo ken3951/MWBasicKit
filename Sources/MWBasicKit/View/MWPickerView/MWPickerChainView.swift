@@ -46,6 +46,12 @@ public class MWPickerChainView: MWPickerView {
         return getItem(component: component-1, row: pickerView.selectedRow(inComponent:  component-1))?.mw_pickerSubItems.count ?? 0
     }
     
+    override func didSelectPickerRow(_ row: Int, inComponent component: Int) {
+        if component < self.maxDepth-1 {
+            self.pickerView.reloadAllComponents()
+        }
+    }
+    
     private func getItem(component: Int, row: Int) -> MWPickChainable? {
         if component == 0 {
             return items.mw_get(row)
